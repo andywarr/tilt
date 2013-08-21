@@ -6,13 +6,13 @@ function tilt(id) {
         
         this.el = document.getElementById(id);
         
-        this.el.onmouseleave = (function() {
+        this.onmouseleave = (function() {
             this.transition('all .2s ease-out');
       
-            this.transform('rotate3d(' + 0 + ', ' + 0 + ', 0, ' + 0 + 'deg)'); 
+            this.transform('rotate3d(' + 0 + ', ' + 0 + ', 0, ' + 0 + 'deg)');
         }).bind(this);
         
-        this.el.onmousemove = (function(e) {   
+        this.onmousemove = (function(e) {   
             this.transition('');
         
             cx = Math.ceil(this.el.offsetWidth / 2.0);
@@ -27,6 +27,8 @@ function tilt(id) {
         
             this.transform('rotate3d(' + tiltx + ', ' + tilty + ', 0, ' + degree + 'deg)');
         }).bind(this);
+        
+        this.addTiltListener();
         
         return this;
     }
@@ -48,4 +50,14 @@ tilt.prototype.transition = function(value) {
     this.el.style.msTransition = value;
     
     return this;
+};
+
+tilt.prototype.addTiltListener = function() {
+    this.el.onmousemove = this.onmousemove;
+    this.el.onmouseleave = this.onmouseleave;
+};
+
+tilt.prototype.removeTiltListener = function() {
+    this.el.onmousemove = null;
+    this.el.onmouseleave = null;
 };
