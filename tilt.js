@@ -1,44 +1,51 @@
-function tilt(el) {
-  var value = '';
-
-  el.onmousemove = function(e) {   
-    value = '';
-    transition(el, value);
+function tilt(id) {
+    if (id) {
+        if (window === this) {
+             return new tilt(id);
+        }
         
-    cx = Math.ceil(el.offsetWidth / 2.0);
-    cy = Math.ceil(el.offsetHeight / 2.0);
-    dx = e.offsetX - cx;
-    dy = e.offsetY - cy;
+        this.el = document.getElementById(id);
         
-    tiltx = - (dy / cy);
-    tilty = (dx / cx);
-    radius = Math.sqrt(Math.pow(tiltx,2) + Math.pow(tilty,2));
-    degree = (radius * 20);
+        this.el.onmouseleave = (function() {
+            this.transition('all .2s ease-out');
+      
+            this.transform('rotate3d(' + 0 + ', ' + 0 + ', 0, ' + 0 + 'deg)'); 
+        }).bind(this);
         
-    value = 'rotate3d(' + tiltx + ', ' + tilty + ', 0, ' + degree + 'deg)';
+        this.el.onmousemove = (function(e) {   
+            this.transition('');
         
-    transform(el, value);
-  };
-    
-  el.onmouseleave = function() {
-    value = 'all .2s ease-out';
-    transition(el, value);
+            cx = Math.ceil(this.el.offsetWidth / 2.0);
+            cy = Math.ceil(this.el.offsetHeight / 2.0);
+            dx = e.offsetX - cx;
+            dy = e.offsetY - cy;
         
-    value = 'rotate3d(' + 0 + ', ' + 0 + ', 0, ' + 0 + 'deg)';
-    transform(el, value); 
-  };
-    
-  var transform = function(el, value) {
-    el.style.webkitTransform = value;
-    el.style.MozTransform = value;
-    el.style.OTransform = value;
-    el.style.msTransform = value;
-  };
-    
-  transition = function(el, value) {
-    el.style.webkitTransition = value;
-    el.style.MozTransition = value;
-    el.style.OTransition = value;
-    el.style.msTransition = value;
-  };
+            tiltx = - (dy / cy);
+            tilty = (dx / cx);
+            radius = Math.sqrt(Math.pow(tiltx,2) + Math.pow(tilty,2));
+            degree = (radius * 20);
+        
+            this.transform('rotate3d(' + tiltx + ', ' + tilty + ', 0, ' + degree + 'deg)');
+        }).bind(this);
+        
+        return this;
+    }
 }
+
+tilt.prototype.transform = function(value) {
+    this.el.style.webkitTransform = value;
+    this.el.style.MozTransform = value;
+    this.el.style.OTransform = value;
+    this.el.style.msTransform = value;
+    
+    return this;
+};
+    
+tilt.prototype.transition = function(value) {
+    this.el.style.webkitTransition = value;
+    this.el.style.MozTransition = value;
+    this.el.style.OTransition = value;
+    this.el.style.msTransition = value;
+    
+    return this;
+};
