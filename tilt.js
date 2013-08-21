@@ -28,29 +28,25 @@ function tilt(id) {
             this.transform('rotate3d(' + tiltx + ', ' + tilty + ', 0, ' + degree + 'deg)');
         }).bind(this);
         
+        this.transform = function(value) {
+            this.el.style.webkitTransform = value;
+            this.el.style.MozTransform = value;
+            this.el.style.OTransform = value;
+            this.el.style.msTransform = value;
+        };
+    
+        this.transition = function(value) {
+            this.el.style.webkitTransition = value;
+            this.el.style.MozTransition = value;
+            this.el.style.OTransition = value;
+            this.el.style.msTransition = value;
+};
+        
         this.addTiltListener();
         
         return this;
     }
 }
-
-tilt.prototype.transform = function(value) {
-    this.el.style.webkitTransform = value;
-    this.el.style.MozTransform = value;
-    this.el.style.OTransform = value;
-    this.el.style.msTransform = value;
-    
-    return this;
-};
-    
-tilt.prototype.transition = function(value) {
-    this.el.style.webkitTransition = value;
-    this.el.style.MozTransition = value;
-    this.el.style.OTransition = value;
-    this.el.style.msTransition = value;
-    
-    return this;
-};
 
 tilt.prototype.addTiltListener = function() {
     this.el.onmousemove = this.onmousemove;
