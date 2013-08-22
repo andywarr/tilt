@@ -1,22 +1,18 @@
-function tilt(id) {
+var tilt = function(id) {
     if (id) {
-        if (window === this) {
-             return new tilt(id);
-        }
+        var el = document.getElementById(id);
         
-        this.el = document.getElementById(id);
-        
-        this.onmouseleave = (function() {
-            this.transition('all .2s ease-out');
+        var onmouseleave = function() {
+           transition('all .2s ease-out');
       
-            this.transform('rotate3d(' + 0 + ', ' + 0 + ', 0, ' + 0 + 'deg)');
-        }).bind(this);
+           transform('rotate3d(' + 0 + ', ' + 0 + ', 0, ' + 0 + 'deg)');
+        };
         
-        this.onmousemove = (function(e) {   
-            this.transition('');
+        var onmousemove = function(e) {   
+           transition('');
         
-            cx = Math.ceil(this.el.offsetWidth / 2.0);
-            cy = Math.ceil(this.el.offsetHeight / 2.0);
+            cx = Math.ceil(el.offsetWidth / 2.0);
+            cy = Math.ceil(el.offsetHeight / 2.0);
             dx = e.offsetX - cx;
             dy = e.offsetY - cy;
         
@@ -25,35 +21,34 @@ function tilt(id) {
             radius = Math.sqrt(Math.pow(tiltx,2) + Math.pow(tilty,2));
             degree = (radius * 20);
         
-            this.transform('rotate3d(' + tiltx + ', ' + tilty + ', 0, ' + degree + 'deg)');
-        }).bind(this);
+           transform('rotate3d(' + tiltx + ', ' + tilty + ', 0, ' + degree + 'deg)');
+        };
         
-        this.transform = function(value) {
-            this.el.style.webkitTransform = value;
-            this.el.style.MozTransform = value;
-            this.el.style.OTransform = value;
-            this.el.style.msTransform = value;
+        var transform = function(value) {
+            el.style.webkitTransform = value;
+            el.style.MozTransform = value;
+            el.style.OTransform = value;
+            el.style.msTransform = value;
         };
     
-        this.transition = function(value) {
-            this.el.style.webkitTransition = value;
-            this.el.style.MozTransition = value;
-            this.el.style.OTransition = value;
-            this.el.style.msTransition = value;
+        var transition = function(value) {
+            el.style.webkitTransition = value;
+            el.style.MozTransition = value;
+            el.style.OTransition = value;
+            el.style.msTransition = value;
+};
+        this.addTiltListener = function() {
+    el.onmousemove = onmousemove;
+    el.onmouseleave = onmouseleave;
+};
+        
+        this.removeTiltListener = function() {
+    el.onmousemove = null;
+    el.onmouseleave = null;
 };
         
         this.addTiltListener();
         
         return this;
     }
-}
-
-tilt.prototype.addTiltListener = function() {
-    this.el.onmousemove = this.onmousemove;
-    this.el.onmouseleave = this.onmouseleave;
-};
-
-tilt.prototype.removeTiltListener = function() {
-    this.el.onmousemove = null;
-    this.el.onmouseleave = null;
 };
