@@ -16,8 +16,8 @@ var tilt = function(id) {
       dx = e.offsetX - cx;
       dy = e.offsetY - cy;
       
-      tiltx = - (dy / cy);
-      tilty = (dx / cx);
+      tiltx = (dy / cy);
+      tilty = - (dx / cx);
       radius = Math.sqrt(Math.pow(tiltx,2) + Math.pow(tilty,2));
       degree = (radius * 20);
       
